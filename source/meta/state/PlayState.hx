@@ -1,5 +1,7 @@
 package meta.state;
 
+import meta.ui.Mobilecontrols;
+
 import flixel.FlxBasic;
 import flixel.FlxCamera;
 import flixel.FlxG;
@@ -42,7 +44,7 @@ import sys.io.File;
 
 using StringTools;
 
-#if !html5
+#if desktop
 import meta.data.dependency.Discord;
 #end
 
@@ -56,7 +58,7 @@ class PlayState extends MusicBeatState
 	public static var storyWeek:Int = 0;
 	public static var storyPlaylist:Array<String> = [];
 	public static var storyDifficulty:Int = 2;
-
+	var mcontrols:Mobilecontrols; 
 	public static var songMusic:FlxSound;
 	public static var vocals:FlxSound;
 
@@ -363,11 +365,31 @@ class PlayState extends MusicBeatState
 		add(uiHUD);
 		uiHUD.cameras = [camHUD];
 		//
+	mcontrols = new Mobilecontrols();
+	switch (mcontrols.mode)
+	{
+		case VIRTUALPAD_RIGHT | VIRTUALPAD_LEFT | VIRTUALPAD_CUSTOM:
+			controls.setVirtualPad(mcontrols._virtualPad, FULL, NONE);
+		case HITBOX:
+			controls.setHitBox(mcontrols._hitbox);
+		default:
+	}
+	trackedinputs = controls.trackedinputs;
+	controls.trackedinputs = [];
 
-		// create a hud over the hud camera for dialogue
-		dialogueHUD = new FlxCamera();
-		dialogueHUD.bgColor.alpha = 0;
-		FlxG.cameras.add(dialogueHUD);
+	var camcontrol = new FlxCamera();
+	FlxG.cameras.add(camcontrol);
+	camcontrol.bgColor.alpha = 0;
+	mcontrols.cameras = [camcontrol];
+
+	//mcontrols.visible = false;
+	mcontrols.alpha = 0;
+
+	add(mcontrols);
+	// create a hud over the hud camera for dialogue
+	dialogueHUD = new FlxCamera();
+	dialogueHUD.bgColor.alpha = 0;
+	FlxG.cameras.add(dialogueHUD);
 
 		blackBox = new FlxShapeBox(0, 0, FlxG.width, FlxG.height, {thickness: 0, color: FlxColor.TRANSPARENT}, FlxColor.BLACK);
 		blackBox.cameras = [dialogueHUD];
@@ -407,7 +429,7 @@ class PlayState extends MusicBeatState
 		// Uncomment the code below to apply the effect
 
 		/*
-		var shader:GraphicsShader = new GraphicsShader("", File.getContent("./assets/shaders/vhs.frag"));
+		var shader:GraphicsShader = new GraphicsShader("", Asset.getText("./assets/shaders/vhs.frag"));
 		FlxG.camera.setFilters([new ShaderFilter(shader)]);
 		*/
 	}
@@ -1096,7 +1118,7 @@ class PlayState extends MusicBeatState
 
 	public static function updateRPC(pausedRPC:Bool)
 	{
-		#if !html5
+		#if desktop
 		var displayRPC:String = (pausedRPC) ? detailsPausedText : songDetails;
 
 		if (health > 0)
@@ -1383,6 +1405,16 @@ class PlayState extends MusicBeatState
 
 	function startSong():Void
 	{
+		new FlxTimer().start(0.1, function(tmr:FlxTimer)
+			{
+				mcontrols.alpha += 0.1;
+				if (mcontrols.alpha != 0.7){
+					tmr.reset(0.1);
+				}
+				else{
+					trace('aweseom.');
+				}
+			});
 		startingSong = false;
 
 		previousFrameTime = FlxG.game.ticks;
@@ -1396,7 +1428,7 @@ class PlayState extends MusicBeatState
 
 			resyncVocals();
 
-			#if !html5
+			#if desktop
 			// Song duration in a float, useful for the time left feature
 			songLength = songMusic.length;
 
@@ -1600,6 +1632,17 @@ class PlayState extends MusicBeatState
 
 	function endSong():Void
 	{
+		//aaa
+		new FlxTimer().start(0.1, function(tmr:FlxTimer)
+			{
+				mcontrols.alpha -= 0.1;
+				if (mcontrols.alpha != 0){
+					tmr.reset(0.1);
+				}
+				else{
+					trace('aweseom.');
+				}
+			});
 		canPause = false;
 		songMusic.volume = 0;
 		vocals.volume = 0;
@@ -1781,7 +1824,7 @@ class PlayState extends MusicBeatState
 		{
 			startedCountdown = false;
 
-			dialogueBox = DialogueBox.createDialogue(sys.io.File.getContent(dialogPath));
+			dialogueBox = DialogueBox.createDialogue(sys.io.Asset.getText(dialogPath));
 			dialogueBox.cameras = [dialogueHUD];
 			dialogueBox.whenDaFinish = startCountdown;
 

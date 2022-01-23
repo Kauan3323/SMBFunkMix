@@ -69,7 +69,7 @@ class CustomTitlescreen extends MusicBeatState
 		if (!initialized)
 		{
 			///*
-			#if !html5
+			#if desktop
 			Discord.changePresence('TITLE SCREEN', 'Main Menu');
 			#end
 
@@ -183,7 +183,13 @@ class CustomTitlescreen extends MusicBeatState
 
 		var pressedEnter:Bool = FlxG.keys.justPressed.ENTER;
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
-
+		for (touch in FlxG.touches.list)
+			{
+				if (touch.justPressed)
+				{
+					pressedEnter = true;
+				}
+			}
 		if (gamepad != null)
 		{
 			if (gamepad.justPressed.START)

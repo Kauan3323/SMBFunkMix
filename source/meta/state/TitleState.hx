@@ -69,7 +69,7 @@ class TitleState extends MusicBeatState
 		if (!initialized)
 		{
 			///*
-			#if !html5
+			#if desktop
 			Discord.changePresence('TITLE SCREEN', 'Main Menu');
 			#end
 
@@ -188,8 +188,6 @@ class TitleState extends MusicBeatState
 		// FlxG.watch.addQuick('amp', FlxG.sound.music.amplitude);
 
 		var pressedEnter:Bool = FlxG.keys.justPressed.ENTER;
-
-		#if mobile
 		for (touch in FlxG.touches.list)
 		{
 			if (touch.justPressed)
@@ -197,8 +195,6 @@ class TitleState extends MusicBeatState
 				pressedEnter = true;
 			}
 		}
-		#end
-
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
 
 		if (gamepad != null)
