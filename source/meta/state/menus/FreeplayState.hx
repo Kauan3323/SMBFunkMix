@@ -93,7 +93,7 @@ class FreeplayState extends MusicBeatState
 		// LOAD MUSIC
 		ForeverTools.playFreeplayMusic();
 
-		#if !html5
+		#if desktop
 		Discord.changePresence('FREEPLAY MENU', 'Main Menu');
 		#end
 
@@ -147,6 +147,7 @@ class FreeplayState extends MusicBeatState
 		selector.size = 40;
 		selector.text = ">";
 		// add(selector);
+		addVirtualPad(FULL, A_B);
 	}
 
 	public function addSong(songName:String, weekNum:Int, songCharacter:String, songColor:FlxColor)
