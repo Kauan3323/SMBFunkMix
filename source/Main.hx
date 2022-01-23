@@ -1,6 +1,6 @@
 package;
 
-import flixel.FlxBasic;
+import flixel.Basic;
 import flixel.FlxG;
 import flixel.FlxGame;
 import flixel.FlxSprite;
@@ -120,7 +120,7 @@ class Main extends Sprite
 
 		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash);
 
-		#if html5
+		#if (html5 || android)
 		framerate = 60;
 		#end
 
@@ -131,6 +131,7 @@ class Main extends Sprite
 		var stageWidth:Int = Lib.current.stage.stageWidth;
 		var stageHeight:Int = Lib.current.stage.stageHeight;
 
+		#if !android
 		if (zoom == -1)
 		{
 			var ratioX:Float = stageWidth / gameWidth;
@@ -141,6 +142,7 @@ class Main extends Sprite
 			// this just kind of sets up the camera zoom in accordance to the surface width and camera zoom.
 			// if set to negative one, it is done so automatically, which is the default.
 		}
+		#end
 
 		// here we set up the base game
 		var gameCreate:FlxGame;
@@ -151,7 +153,7 @@ class Main extends Sprite
 		// addChild(new FPS(10, 3, 0xFFFFFF));
 
 		// begin the discord rich presence
-		#if !html5
+		#if desktop
 		Discord.initializeRPC();
 		Discord.changePresence('');
 		#end

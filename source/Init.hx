@@ -11,6 +11,9 @@ import meta.state.charting.*;
 import meta.state.menus.*;
 import openfl.filters.BitmapFilter;
 import openfl.filters.ColorMatrixFilter;
+import sys.FileSystem;
+import sys.*;
+import lime.*;
 
 using StringTools;
 
@@ -104,6 +107,13 @@ class Init extends FlxState
 			'Choose a filter for colorblindness.',
 			NOT_FORCED,
 			['none', 'Deuteranopia', 'Protanopia', 'Tritanopia']
+		],
+		"MFcontrols" => [
+			'right control',
+			Selector,
+			'Change custom controls.',
+			NOT_FORCED,
+			['right control', 'left control','keyboard','custom', 'hitbox']
 		],
 		"UI Skin" => ['default', Selector, 'Choose a UI Skin for judgements, combo, etc.', NOT_FORCED, ''],
 		"Note Skin" => ['default', Selector, 'Choose a note skin.', NOT_FORCED, ''],
@@ -205,7 +215,9 @@ class Init extends FlxState
 		loadSettings();
 		loadControls();
 
-		#if !html5
+		Sys.setCwd(lime.system.System.applicationStorageDirectory);
+
+		#if desktop
 		Main.updateFramerate(trueSettings.get("Framerate Cap"));
 		#end
 
@@ -294,7 +306,7 @@ class Init extends FlxState
 	{
 		InfoHud.updateDisplayInfo(trueSettings.get('FPS Counter'), trueSettings.get('Debug Info'), trueSettings.get('Memory Counter'));
 
-		#if !html5
+		#if desktop
 		Main.updateFramerate(trueSettings.get("Framerate Cap"));
 		#end
 
