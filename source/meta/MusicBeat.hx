@@ -1,6 +1,7 @@
 package meta;
 
 import flixel.FlxG;
+import flixel.FlxCamera;
 import flixel.FlxSubState;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.math.FlxRect;
@@ -10,6 +11,9 @@ import meta.data.*;
 import meta.data.Conductor.BPMChangeEvent;
 import meta.data.dependency.FNFUIState;
 import meta.state.PlayState;
+import meta.utils.Config;
+import flixel.input.actions.FlxActionInput;
+import meta.ui.FlxVirtualPad;
 
 /* 
 	Music beat state happens to be the first thing on my list of things to add, it just so happens to be the backbone of
@@ -26,6 +30,34 @@ class MusicBeatState extends FNFUIState
 
 	public var curStep:Int = 0;
 	public var curBeat:Int = 0;
+	public var vpadCam:FlxCamera;
+	var _virtualpad:FlxVirtualPad;
+
+	var trackedinputs:Array<FlxActionInput> = [];
+
+	// adding virtualpad to state
+	public function addVirtualPad(?DPad:FlxDPadMode, ?Action:FlxActionMode) {
+		_virtualpad = new FlxVirtualPad(DPad, Action);
+		_virtualpad.alpha = 0.75;
+		vpadCam = new FlxCamera();
+		FlxG.cameras.add(vpadCam);
+		vpadCam.bgColor.alpha = 0;
+		_virtualpad.cameras = [vpadCam];
+		add(_virtualpad);
+		controls.setVirtualPad(_virtualpad, DPad, Action);
+		trackedinputs = controls.trackedinputs;
+		controls.trackedinputs = [];
+
+		#if android
+		controls.addAndroidBack();
+		#end
+	}
+	
+	override function destroy() {
+		controls.removeFlxInput(trackedinputs);
+
+		super.destroy();
+	}
 
 	private var controls(get, never):Controls;
 
@@ -115,7 +147,34 @@ class MusicBeatSubState extends FlxSubState
 
 	private var curStep:Int = 0;
 	private var curBeat:Int = 0;
+	public var vpadCam:FlxCamera;
+	var _virtualpad:FlxVirtualPad;
+
+	var trackedinputs:Array<FlxActionInput> = [];
 	private var controls(get, never):Controls;
+	
+	// adding virtualpad to state
+	public function addVirtualPad(?DPad:FlxDPadMode, ?Action:FlxActionMode) {			_virtualpad = new FlxVirtualPad(DPad, Action);
+		_virtualpad.alpha = 0.75;
+		vpadCam = new FlxCamera();
+		FlxG.cameras.add(vpadCam);
+		vpadCam.bgColor.alpha = 0;
+		_virtualpad.cameras = [vpadCam];
+		add(_virtualpad);
+		controls.setVirtualPad(_virtualpad, DPad, Action);
+		trackedinputs = controls.trackedinputs;
+		controls.trackedinputs = [];
+
+		#if android
+		controls.addAndroidBack();
+		#end
+	}
+			
+	override function destroy() {
+		controls.removeFlxInput(trackedinputs);
+		super.destroy();
+	}
+		
 
 	inline function get_controls():Controls
 		return PlayerSettings.player1.controls;
