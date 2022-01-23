@@ -3,6 +3,7 @@ package;
 /*
 	Aw hell yeah! something I can actually work on!
  */
+import openfl.utils.Assets;
 import flixel.FlxG;
 import flixel.graphics.frames.FlxAtlasFrames;
 import meta.CoolUtil;
@@ -167,7 +168,7 @@ class Paths
 
 	inline static public function getSparrowAtlas(key:String, ?library:String)
 	{
-		return (FlxAtlasFrames.fromSparrow(image(key, library), Asset.getText(file('images/$key.xml', library))));
+		return (FlxAtlasFrames.fromSparrow(image(key, library), Assets.getText(file('images/$key.xml', library))));
 	}
 
 	inline static public function getPackerAtlas(key:String, ?library:String)

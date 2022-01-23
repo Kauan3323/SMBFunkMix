@@ -1,6 +1,6 @@
 package;
 
-import flixel.Basic;
+import flixel.FlxBasic;
 import flixel.FlxG;
 import flixel.FlxGame;
 import flixel.FlxSprite;

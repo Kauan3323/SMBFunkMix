@@ -11,7 +11,7 @@ import meta.data.*;
 import meta.data.Conductor.BPMChangeEvent;
 import meta.data.dependency.FNFUIState;
 import meta.state.PlayState;
-import meta.utils.Config;
+import meta.data.Config;
 import flixel.input.actions.FlxActionInput;
 import meta.ui.FlxVirtualPad;
 

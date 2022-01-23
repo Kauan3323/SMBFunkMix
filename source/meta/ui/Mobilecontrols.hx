@@ -1,12 +1,11 @@
 package meta.ui;
 
+import meta.data.Config;
 import flixel.FlxG;
 import flixel.group.FlxSpriteGroup;
 
 import meta.ui.FlxVirtualPad;
 import meta.ui.Hitbox;
-
-import Config;
 
 class Mobilecontrols extends FlxSpriteGroup
 {
