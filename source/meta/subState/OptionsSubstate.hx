@@ -142,6 +142,7 @@ class OptionsSubstate extends MusicBeatSubState
 		submenu.visible = false;
 		submenuGroup.visible = false;
 		submenuoffsetGroup.visible = false;
+		addVirtualPad(FULL, A_B);
 	}
 
 	private var keyOptions:FlxTypedGroup<FlxText>;
