@@ -1,5 +1,6 @@
 package gameObjects.userInterface;
 
+import openfl.utils.Assets;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.FlxGraphic;
@@ -27,7 +28,7 @@ class HealthIcon extends FlxSprite
 			trimmedCharacter = trimmedCharacter.substring(0, trimmedCharacter.indexOf('-'));
 
 		var iconPath = char;
-		while (!FileSystem.exists(Paths.image('icons/icon-' + iconPath))) {
+		while (!Assets.exists(Paths.image('icons/icon-' + iconPath))) { // bruh
 			if (iconPath != trimmedCharacter)
 				iconPath = trimmedCharacter;
 			else

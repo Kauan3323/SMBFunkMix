@@ -1464,11 +1464,11 @@ class PlayState extends MusicBeatState
 			powerupVisuals("idle");
 		}
 
-		songMusic = new FlxSound().loadEmbedded(Sound.fromFile('./' + Paths.inst(SONG.song)), false, true);
+		songMusic = new FlxSound().loadEmbedded(Paths.inst(SONG.song), false, true);
 		songMusic.volume = 0.75;
 
 		if (SONG.needsVoices)
-			vocals = new FlxSound().loadEmbedded(Sound.fromFile('./' + Paths.voices(SONG.song)), false, true);
+			vocals = new FlxSound().loadEmbedded(Paths.voices(SONG.song), false, true);
 		else
 			vocals = new FlxSound();
 		vocals.volume = 0.75;
@@ -1820,7 +1820,7 @@ class PlayState extends MusicBeatState
 
 	function callTextbox() {
 		var dialogPath = Paths.json(SONG.song.toLowerCase() + '/dialogue');
-		if (sys.FileSystem.exists(dialogPath))
+		if (Assets.exists(dialogPath))
 		{
 			startedCountdown = false;
 
