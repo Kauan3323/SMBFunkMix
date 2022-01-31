@@ -139,7 +139,7 @@ class Paths
 	inline static public function voices(song:String)
 	{
 		var voicePath = 'songs/${song.toLowerCase()}/Voices.$SOUND_EXT';
-		if (!FileSystem.exists(getPath(voicePath, MUSIC, null)))
+		if (!Assets.exists(getPath(voicePath, MUSIC, null)))
 		{
 			voicePath = 'songs/${CoolUtil.swapSpaceDash(song.toLowerCase())}/Voices.$SOUND_EXT';
 		}
@@ -149,7 +149,7 @@ class Paths
 	inline static public function inst(song:String)
 	{
 		var instPath = 'songs/${song.toLowerCase()}/Inst.$SOUND_EXT';
-		if (!FileSystem.exists(getPath(instPath, MUSIC, null)))
+		if (!Assets.exists(getPath(instPath, MUSIC, null)))
 		{
 			instPath = 'songs/${CoolUtil.swapSpaceDash(song.toLowerCase())}/Inst.$SOUND_EXT';
 		}
